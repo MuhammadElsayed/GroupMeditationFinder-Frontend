@@ -6,6 +6,7 @@ import { AgmCoreModule } from '@agm/core';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule, Routes} from '@angular/router';
+import { WebService } from './services/web.service';
 
 const ROUTES = [
   {path: '' , redirectTo: 'home', pathMatch: 'full'},
@@ -24,7 +25,7 @@ const ROUTES = [
     AgmCoreModule.forRoot({apiKey: 'AIzaSyBJC0apf3_BgbDffq-XzpOqehwujK9sFho'}),
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [],
+  providers: [WebService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
