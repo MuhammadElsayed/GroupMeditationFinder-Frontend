@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, NgZone, ElementRef } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AgmCoreModule, MapsAPILoader } from '@agm/core';
-import {} from '@types/googlemaps';
+import { MapsAPILoader } from '@agm/core';
+import { } from '@types/googlemaps';
+import { WebService } from '../services/web.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,14 +11,14 @@ import {} from '@types/googlemaps';
 })
 export class NavbarComponent implements OnInit {
 
-  searchControl:FormControl;
+  searchControl: FormControl;
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
+    private ngZone: NgZone, private webService: WebService
   ) { }
 
   ngOnInit() {
@@ -35,7 +36,10 @@ export class NavbarComponent implements OnInit {
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
+
+          this.webService.placeChanged(place.geometry.location);
           console.log(place.geometry.location.lat());
+
           //set latitude, longitude and zoom
           // this.latitude = place.geometry.location.lat();
           // this.longitude = place.geometry.location.lng();

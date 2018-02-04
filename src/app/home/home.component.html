@@ -40,12 +40,65 @@
   <ngb-tabset>
     <ngb-tab title="Description">
       <ng-template ngbTabContent>
-        <p>These tabs are displayed as pills...</p>
+        <p>{{currentGroup.description}}</p>
+        <div *ngIf="!currentGroup.isEveryday; else elseBlock">
+          <label>Date: </label> {{currentGroup.datetime | date:'MMMM d, y, h:mm:ss a z'}} 
+        </div>
+        <ng-template #elseBlock>Everyday - {{currentGroup.datetime | date:'h:mm:ss a z'}}</ng-template>
       </ng-template>
     </ngb-tab>
     <ngb-tab title="Active Meditators">
       <ng-template ngbTabContent>
-        <p>Because default values have been customized.</p>
+        
+        <div class="main-box no-header clearfix">
+          <div class="main-box-body clearfix">
+              <div class="table-responsive">
+                  <table class="table user-list">
+                      <thead>
+                          <tr>
+                          <th><span>User</span></th>
+                          <th><span>Joined</span></th>
+                          <!-- <th class="text-center"><span>Status</span></th> -->
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <!-- <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""> -->
+                                  <a href="#" class="user-link">Cem</a>
+                              </td>
+                              <td align="left">2013/08/12</td>
+                              <!-- <td class="text-center">
+                                  <span class="label label-default">pending</span>
+                              </td> -->
+                          </tr>
+                          <tr>
+                              <td>
+                                  <!-- <img src="https://bootdey.com/img/Content/user_3.jpg" alt=""> -->
+                                  <a href="#" class="user-link">Jack</a>
+                              </td>
+                              <td align="left">2013/08/12</td>
+                              <!-- <td class="text-center">
+                                  <span class="label label-success">Active</span>
+                              </td> -->
+                          </tr>
+                          <tr>
+                              <td>
+                                  <!-- <img src="https://bootdey.com/img/Content/user_2.jpg" alt=""> -->
+                                  <a href="#" class="user-link">Jane</a>
+                              </td>
+                              <td align="left">2013/08/12</td>
+                              <!-- <td class="text-center">
+                                  <span class="label label-danger">inactive</span>
+                              </td> -->
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
