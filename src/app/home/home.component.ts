@@ -1,16 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import {NgbTabsetConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  providers: [NgbTabsetConfig] // add NgbTabsetConfig to the component providers
 })
 export class HomeComponent implements OnInit {
   zoom: number = 8;
   lat: number;
   long: number;
   currentGroup;
-  constructor() { }
+  constructor(config: NgbTabsetConfig) {
+    // customize default values of tabsets used by this component tree
+
+  }
 
   ngOnInit() {
     if (window.navigator.geolocation) {
