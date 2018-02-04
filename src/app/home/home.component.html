@@ -1,2 +1,52 @@
-<h1>Bootstrap starter template</h1>
-<p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+<h1>Find group meditations around you!</h1>
+
+<div class = "mapDiv">
+
+<agm-map 
+  [latitude]="lat"
+  [longitude]="long"
+  [zoom]="zoom"
+  [disableDefaultUI]="false"
+  [zoomControl]="false">
+
+  <agm-marker 
+      *ngFor="let g of groups; let i = index"
+      (markerClick)="clickedMarker(g.name, i)"
+      [latitude]="g.geolocation[1]"
+      [longitude]="g.geolocation[0]"
+      [label]="g.name"
+      [markerDraggable]="false">
+      
+    <agm-info-window>
+      <strong>{{g.name}}</strong>
+      <p>{{g.description}}</p>
+
+      <div *ngIf="!g.isEveryday; else elseBlock">
+        <p>{{g.datetime | date:'MMMM d, y, h:mm:ss a z'}} </p> 
+      </div>
+      <ng-template #elseBlock>Everyday - {{g.datetime | date:'h:mm:ss a z'}}</ng-template>
+      <div>
+        <button class="btn btn-outline-success my-2 my-sm-0" [disabled]="g.isJoined" (click) = "joinGroup(i)">JOIN</button>
+      </div>
+     </agm-info-window>    
+  </agm-marker>
+
+</agm-map>
+  
+</div>
+
+<div class="descriptionDiv" *ngIf="currentGroup" >
+  <h1>{{currentGroup.name}}</h1>
+  <ngb-tabset>
+    <ngb-tab title="Description">
+      <ng-template ngbTabContent>
+        <p>These tabs are displayed as pills...</p>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Active Meditators">
+      <ng-template ngbTabContent>
+        <p>Because default values have been customized.</p>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>
