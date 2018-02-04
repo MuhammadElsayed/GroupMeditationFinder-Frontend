@@ -1,3 +1,4 @@
+import { WebService } from './../services/web.service';
 import { Component, OnInit } from '@angular/core';
 import {NgbTabsetConfig} from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,7 +13,7 @@ export class HomeComponent implements OnInit {
   lat: number;
   long: number;
   currentGroup;
-  constructor(config: NgbTabsetConfig) {
+  constructor(config: NgbTabsetConfig, private webService: WebService) {
     // customize default values of tabsets used by this component tree
 
   }
@@ -25,6 +26,15 @@ export class HomeComponent implements OnInit {
         this.long = position.coords.longitude;
       });
     }
+
+    this.webService.currentLocation.subscribe(location => {
+      console.log(location);
+      if(typeof location.lat == 'function')
+      {   
+        this.lat = location.lat();
+        this.long = location.lng();
+      }
+    });
   }
 
   clickedMarker(label: string, index: number) {
@@ -36,6 +46,8 @@ export class HomeComponent implements OnInit {
   {
     console.log(i);
   }
+
+
   
   groups = [
     {
