@@ -7,8 +7,9 @@
   [longitude]="long"
   [zoom]="zoom"
   [disableDefaultUI]="false"
-  [zoomControl]="false">
-
+  [zoomControl]="false"
+ >
+ <!-- (idle) = "idle()" -->
   <agm-marker 
       *ngFor="let g of groups; let i = index"
       (markerClick)="clickedMarker(g.name, i)"
@@ -25,9 +26,16 @@
         <p>{{g.datetime | date:'MMMM d, y, h:mm:ss a z'}} </p> 
       </div>
       <ng-template #elseBlock>Everyday - {{g.datetime | date:'h:mm:ss a z'}}</ng-template>
-      <div>
-        <button class="btn btn-outline-success my-2 my-sm-0" [disabled]="g.isJoined" (click) = "joinGroup(i)">JOIN</button>
+
+      <div *ngIf="checkGroupJoinStatus(i); else notJoined">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click) = "leaveGroup(i)">LEAVE</button>
       </div>
+      <ng-template #notJoined>
+        <div>
+            <button class="btn btn-outline-success my-2 my-sm-0" (click) = "joinGroup(i)" [disabled] = "!isAuthenticated()">JOIN</button>
+        </div>
+      </ng-template>
+     
      </agm-info-window>    
   </agm-marker>
 
@@ -62,36 +70,17 @@
                           </tr>
                       </thead>
                       <tbody>
-                          <tr>
+                          <tr *ngFor="let user of currentGroup.users" >
                               <td>
                                   <!-- <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""> -->
-                                  <a href="#" class="user-link">Cem</a>
+                                  <a href="#" class="user-link">{{user.name}}</a>
                               </td>
-                              <td align="left">2013/08/12</td>
+                              <td align="left">{{user.joinDate | date:'MMM d, y, h:mm:ss a' }}</td>
                               <!-- <td class="text-center">
                                   <span class="label label-default">pending</span>
                               </td> -->
                           </tr>
-                          <tr>
-                              <td>
-                                  <!-- <img src="https://bootdey.com/img/Content/user_3.jpg" alt=""> -->
-                                  <a href="#" class="user-link">Jack</a>
-                              </td>
-                              <td align="left">2013/08/12</td>
-                              <!-- <td class="text-center">
-                                  <span class="label label-success">Active</span>
-                              </td> -->
-                          </tr>
-                          <tr>
-                              <td>
-                                  <!-- <img src="https://bootdey.com/img/Content/user_2.jpg" alt=""> -->
-                                  <a href="#" class="user-link">Jane</a>
-                              </td>
-                              <td align="left">2013/08/12</td>
-                              <!-- <td class="text-center">
-                                  <span class="label label-danger">inactive</span>
-                              </td> -->
-                          </tr>
+                         
                       </tbody>
                   </table>
               </div>
