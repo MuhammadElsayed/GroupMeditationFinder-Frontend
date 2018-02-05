@@ -16,8 +16,8 @@ import { AdminComponent } from './account/admin/admin.component';
 import { WebService, AuthenticationService, UserService } from './services/all';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
-import { JwtInterceptor } from './interceptors/jwt.interceptor';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
+import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
 
 const ROUTES = [
   {path: '' , redirectTo: 'home', pathMatch: 'full'},
@@ -52,8 +52,8 @@ const ROUTES = [
     AuthGuard,
     AuthenticationService,
     UserService,
-    JwtInterceptor,
-    ErrorInterceptor
+    JwtInterceptorProvider,
+    ErrorInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })

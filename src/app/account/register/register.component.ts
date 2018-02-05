@@ -37,18 +37,8 @@ export class RegisterComponent implements OnInit {
           //this.router.navigate(['home']);
         },
         error => {
-          console.log(error.error);
-          let msg: string;
-          if (error.error.errors) {
-            if (error.error.errors.email) {
-              msg = error.error.errors.email.msg;
-            } else {
-              msg = error.error.errors.password.msg;
-            }
-          } else {
-            msg = error.error.msg;
-          }
-          this.toastr.error(msg, 'Wrong!');
+          console.log(error);
+          this.toastr.error(error, 'Wrong!');
           this.loading = false;
         });
   }
