@@ -1,0 +1,6 @@
+.input-group .is-invalid {
+  display: block;
+}
+.input-group .invalid-feedback {
+  display: block;
+}
