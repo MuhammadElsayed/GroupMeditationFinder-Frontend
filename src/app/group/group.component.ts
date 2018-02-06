@@ -192,7 +192,8 @@ export class GroupComponent implements OnInit {
   deleteElement(id) {
     for (let i in this.groupList) {
       if (this.groupList[i]._id == id) {
-        //this.groupList.splice(i, 1);
+        console.dir(typeof(i)) 
+        this.groupList.splice(parseInt(i), 1);
         break;
       }
     }

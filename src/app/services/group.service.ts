@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AppConfig } from './../app.config';
 
-
-let url = 'http://localhost:3000/groups/'
+let url = AppConfig.apiUrl + '/groups/'
 
 @Injectable()
 export class GroupService {
