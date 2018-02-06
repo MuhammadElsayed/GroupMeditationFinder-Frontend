@@ -1,24 +1,146 @@
-<div class="col-md-4 col-md-offset-4 mx-auto">
-  <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
-    <div class="form-group" >
-      <input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" placeholder="Email" required />
-      <span *ngIf="f.submitted && !email.valid" class="text-danger">Enter a valid email!</span>
+<div class="col-md-10 col-md-offset-4 mx-auto registration-outlet">
+
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-7 row">
+      <div class="col-sm-1"></div>
+      <h2>Register New&nbsp;&nbsp;</h2>
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn" (click)="onUserTypeChange(0)" [ngClass]="{'btn-secondary': model.admin === 1, 'btn-success': model.admin === 0}">
+          <input type="radio" name="userOption" id="userOption" autocomplete="off"
+                 [checked]="model.admin === 0" [ngClass]="{'active': model.admin === 0}"
+
+          > User
+        </label>
+        <label class="btn" (click)="onUserTypeChange(1)" [ngClass]="{'btn-secondary': model.admin === 0, 'btn-success': model.admin === 1}">
+          <input type="radio" name="userOption" id="adminOption" autocomplete="off"
+                 [checked]="model.admin === 1" [ngClass]="{'active': model.admin === 1}"
+          > Admin
+        </label>
+      </div>
+      <hr>
+    </div>
+  </div>
+  <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" validate>
+
+    <!--      NAME      -->
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="username">Name</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" [ngClass]="{ 'has-danger': username.invalid && (username.dirty || username.touched) }">
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+              <input type="text" name="username" class="form-control" id="username" [(ngModel)]="model.name" #username="ngModel"
+                     placeholder="Maharaishi Yogi" minlength="4" required autofocus>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+                  <span class="text-danger align-middle" *ngIf="username.invalid && (username.dirty || username.touched)">
+                    <i *ngIf="username.errors.required" class="fa fa-close"> Name is required</i>
+                    <i *ngIf="username.errors.minlength" class="fa fa-close"> Name must be at least 4 characters long</i>
+                  </span>
+          </div>
+        </div>
+      </div>
+
+
+    <!--      EMAIL      -->
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="email">E-Mail Address</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" [ngClass]="{ 'has-danger': email.invalid && (email.dirty || email.touched) }">
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+              <input type="text" name="email" class="form-control" id="email" [(ngModel)]="model.email" #email="ngModel"
+                     placeholder="you@example.com" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required autofocus>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+            <span class="text-danger align-middle" *ngIf="email.invalid && (email.dirty || email.touched)">
+              <i *ngIf="email.errors.required" class="fa fa-close"> Email is required</i>
+              <i *ngIf="email.errors.pattern" class="fa fa-close"> Email is invalid</i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+    <!--    PASSWORD   -->
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="password">Password</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+              <input type="password" name="password" class="form-control" id="password" [(ngModel)]="model.password" #password="ngModel"
+                     placeholder="Password" minlength="4" required>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+                  <span class="text-danger align-middle" *ngIf="password.invalid && (password.dirty || password.touched)">
+                    <i *ngIf="password.errors.required" class="fa fa-close"> Password is required</i>
+                    <i *ngIf="password.errors.minlength" class="fa fa-close"> Password must be at least 6 characters long</i>
+                  </span>
+          </div>
+        </div>
+      </div>
+    <!--  REPEAT PASSWORD -->
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+          <label for="password2">Confirm Password</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-repeat"></i></div>
+              <input type="password" name="password2" class="form-control" id="password2" [(ngModel)]="model.password2" #password2="ngModel"
+                     placeholder="Repeat Password" pattern="{{password.value}}"> <!-- @TODO: validate with better way rather than pattern-->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-control-feedback">
+                  <span class="text-danger align-middle" *ngIf="password2.invalid && (password2.dirty || password2.touched)">
+                    <i *ngIf="password2.errors.pattern" class="fa fa-close"> Password not match!</i>
+                  </span>
+          </div>
+        </div>
+      </div>
+
+
+    <!--      Admin Key      -->
+    <div class="row" *ngIf="model.admin === 1">
+      <div class="col-md-3 field-label-responsive">
+        <label for="adminkey">Admin Key</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user-secret"></i></div>
+            <input type="text" name="adminkey" class="form-control" id="adminkey" [(ngModel)]="model.adminkey" #adminkey="ngModel"
+                   placeholder="Admin's Secret Key" autofocus>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-      <input type="text" class="form-control" name="username" [(ngModel)]="model.name" #username="ngModel" placeholder="Name" required />
-      <span *ngIf="f.submitted && !username.valid" class="text-danger">Username is required</span>
-    </div>
-
-    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-      <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" min="6" placeholder="Password" required />
-      <span *ngIf="f.submitted && !password.valid" class="text-danger">Enter a valid password! (min. 6 characters)</span>
-    </div>
 
     <div class="form-group">
       <button [disabled]="loading" class="btn btn-primary">Register</button>
       <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-      <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+      <a [routerLink]="['/login']" class="btn btn-link">Already Member?</a>
     </div>
   </form>
 </div>

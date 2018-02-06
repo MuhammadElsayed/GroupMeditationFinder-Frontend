@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.model.admin = 0; // new USER by default
   }
 
   register() {
@@ -41,6 +42,10 @@ export class RegisterComponent implements OnInit {
           this.toastr.error(error, 'Wrong!');
           this.loading = false;
         });
+  }
+
+  onUserTypeChange(userType) {
+    this.model.admin = userType;
   }
 
 }
