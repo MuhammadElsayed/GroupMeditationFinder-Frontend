@@ -8,6 +8,28 @@ import { User } from '../models/user';
 export class UserService {
     constructor(private http: HttpClient) { }
 
+    private currentUser: User;
+
+    getCurrentUser(): User {
+      if (!this.currentUser) {
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      }
+      return this.currentUser;
+    }
+
+    isAuthenticated(): boolean {
+      if (!this.getCurrentUser()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    isAdmin(): boolean {
+      return (this.getCurrentUser() && this.getCurrentUser().role === 'admin');
+    }
+
+    // ------------------------------ WEB SERVICES --------------------------------
     getAll() {
     }
 
