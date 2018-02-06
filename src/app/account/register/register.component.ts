@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.model.isAdmin = 0; // new USER by default
+    this.model.admin = 0; // new USER by default
   }
 
   register() {
@@ -45,9 +45,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onUserTypeChange(userType) {
-    debugger;
-    this.model.isAdmin = userType;
-    console.log(this.model.isAdmin);
+    this.model.admin = userType;
   }
 
 }

@@ -1,29 +1,27 @@
-<div class="col-md-10 col-md-offset-4 mx-auto">
-  <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" validate>
+<div class="col-md-10 col-md-offset-4 mx-auto registration-outlet">
 
-      <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-7 row">
-          <div class="col-sm-1"></div>
-          <h2>{{model.isAdmin}}Register New</h2>
-          <div class="col-sm-1"></div>
-          <div class="btn-group" data-toggle="buttons">
-          <label class="btn"  [ngClass]="{'btn-secondary': model.isAdmin === 1, 'btn-success': model.isAdmin === 0}">
-            <input type="radio" name="userOption" id="userOption" autocomplete="off" value="0"
-                   [checked]="model.isAdmin === 0" [ngClass]="{'active': model.isAdmin === 0}"
-                   (change)="onUserTypeChange(0)"
-            > User
-          </label>
-          <label class="btn"  [ngClass]="{'btn-secondary': model.isAdmin === 0, 'btn-success': model.isAdmin === 1}">
-            <input type="radio" name="userOption" id="adminOption" autocomplete="off" value="1"
-                   [checked]="model.isAdmin === 1" [ngClass]="{'active': model.isAdmin === 1}"
-                   (change)="onUserTypeChange(1)"
-            > Admin
-          </label>
-        </div>
-          <hr>
-        </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-7 row">
+      <div class="col-sm-1"></div>
+      <h2>Register New&nbsp;&nbsp;</h2>
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn" (click)="onUserTypeChange(0)" [ngClass]="{'btn-secondary': model.admin === 1, 'btn-success': model.admin === 0}">
+          <input type="radio" name="userOption" id="userOption" autocomplete="off"
+                 [checked]="model.admin === 0" [ngClass]="{'active': model.admin === 0}"
+
+          > User
+        </label>
+        <label class="btn" (click)="onUserTypeChange(1)" [ngClass]="{'btn-secondary': model.admin === 0, 'btn-success': model.admin === 1}">
+          <input type="radio" name="userOption" id="adminOption" autocomplete="off"
+                 [checked]="model.admin === 1" [ngClass]="{'active': model.admin === 1}"
+          > Admin
+        </label>
       </div>
+      <hr>
+    </div>
+  </div>
+  <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" validate>
 
     <!--      NAME      -->
       <div class="row">
@@ -106,9 +104,9 @@
         <div class="col-md-6">
           <div class="form-group">
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-repeat"></i></div>
               <input type="password" name="password2" class="form-control" id="password2" [(ngModel)]="model.password2" #password2="ngModel"
-                     placeholder="Password" pattern="{{password.value}}"> <!-- @TODO: validate with better way rather than pattern-->
+                     placeholder="Repeat Password" pattern="{{password.value}}"> <!-- @TODO: validate with better way rather than pattern-->
             </div>
           </div>
         </div>
@@ -122,6 +120,21 @@
       </div>
 
 
+    <!--      Admin Key      -->
+    <div class="row" *ngIf="model.admin === 1">
+      <div class="col-md-3 field-label-responsive">
+        <label for="adminkey">Admin Key</label>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user-secret"></i></div>
+            <input type="text" name="adminkey" class="form-control" id="adminkey" [(ngModel)]="model.adminkey" #adminkey="ngModel"
+                   placeholder="Admin's Secret Key" autofocus>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
     <div class="form-group">

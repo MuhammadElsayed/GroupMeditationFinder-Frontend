@@ -1,4 +1,4 @@
-<div class="col-md-4 col-md-offset-4 mx-auto">
+<div class="col-md-4 col-md-offset-4 mx-auto login-outlet">
   <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
     <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
       <input type="text" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" placeholder="Email" required />
