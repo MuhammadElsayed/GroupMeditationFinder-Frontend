@@ -1,3 +1,6 @@
+<div class="wrapper">
+
+
 <h1>Find group meditations around you!</h1>
 
 <div class = "mapDiv">
@@ -7,7 +10,7 @@
   [longitude]="long"
   [zoom]="zoom"
   [disableDefaultUI]="false"
-  [zoomControl]="false"
+  [zoomControl]="false" (idle) = "idle()"
  >
  <!-- (idle) = "idle()" -->
   <agm-marker 
@@ -32,7 +35,7 @@
       </div>
       <ng-template #notJoined>
         <div>
-            <button class="btn btn-outline-success my-2 my-sm-0" (click) = "joinGroup(i)" [disabled] = "!isAuthenticated()">JOIN</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" (click) = "joinGroup(i)" [disabled] = "isAuthenticated()">JOIN</button>
         </div>
       </ng-template>
      
@@ -91,4 +94,5 @@
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
+</div>
 </div>
