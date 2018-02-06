@@ -19,11 +19,15 @@ import { AdminGuard } from './guards/admin.guard';
 import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
 import { RegisteredGroupsComponent } from './registered-groups/registered-groups.component';
+import { GroupService } from './services/group.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { GroupComponent } from './group/group.component';
+import {  FormBuilder } from "@angular/forms";
 
 const ROUTES = [
   {path: '' , redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin', component: GroupComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'registered', component: RegisteredGroupsComponent }
@@ -34,6 +38,7 @@ const ROUTES = [
     AppComponent,
     HomeComponent,
     NavbarComponent,
+    GroupComponent
     LoginComponent,
     RegisterComponent,
     AdminComponent,
@@ -56,7 +61,9 @@ const ROUTES = [
     AuthenticationService,
     UserService,
     JwtInterceptorProvider,
-    ErrorInterceptorProvider
+    ErrorInterceptorProvider,
+    FormBuilder,
+    GroupService
   ],
   bootstrap: [AppComponent]
 })
