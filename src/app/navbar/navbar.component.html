@@ -14,11 +14,15 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-          Account
+          {{accountHeader}}
         </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" [routerLink]="['login']">Login</a>
+        <div class="dropdown-menu" *ngIf="!hasLoggedinUser">
+          <a class="dropdown-item" [routerLink]="['/login']">Login</a>
           <a class="dropdown-item" [routerLink]="['/register']">Register</a>
+        </div>
+        <div class="dropdown-menu" *ngIf="hasLoggedinUser">
+          <a class="dropdown-item" *ngIf="isAdmin" [routerLink]="['/admin']">Admin Keys</a>
+          <a class="dropdown-item" (click)="logOut()">Logout</a>
         </div>
       </li>
     </ul>
