@@ -16,7 +16,7 @@
               class="form-control"
               id="name"
               formControlName="name">
-      <div *ngIf="!myForm.controls['name'].valid" style="color:red">
+      <div *ngIf="!myForm.controls['name'].valid && myForm.controls['name'].touched" style="color:red">
         Required
       </div>
     </div>
@@ -28,22 +28,22 @@
                   id="description"
                   rows="5"
                   formControlName="description"></textarea>         
-          <div *ngIf="!myForm.controls['description'].valid" style="color:red">
+          <div *ngIf="!myForm.controls['description'].valid && myForm.controls['description'].touched" style="color:red">
             Invalid description
           </div>
       </div>
       
       <!-- ngui-datetime-picker -->
       <div class="form-control">
-          <label for="datetime">Datetime</label><br/>
-          <input type="datetime-local"
+          <label for="datetime-local">Datetime</label><br/>
+          <input type="date"
                   class="form-control"
                   id="datetime"
-                  value="{{date}}"
-                   formControlName="datetime" 
+                  formControlName="datetime" 
+                  value="1996-12-19T16:39:57-08:00"
                  >
           
-          <div *ngIf="!myForm.controls['datetime'].valid" style="color:red">
+          <div *ngIf="!myForm.controls['datetime'].valid && myForm.controls['datetime'].touched" style="color:red">
             Invalid Datetime
           </div>
         </div>
@@ -54,7 +54,7 @@
                     class="form-control"
                     id="street"
                     formControlName="street">
-            <div *ngIf="!myForm.controls['address'].controls['street'].valid" style="color:red">
+            <div *ngIf="!myForm.controls['address'].controls['street'].valid && myForm.controls['address'].controls['street'].touched" style="color:red">
               Required
             </div>
         </div>
@@ -65,7 +65,7 @@
                     class="form-control"
                     id="city"
                     formControlName="city">
-            <div *ngIf="!myForm.controls['address'].controls['city'].valid" style="color:red">
+            <div *ngIf="!myForm.controls['address'].controls['city'].valid && myForm.controls['address'].controls['city'].touched" style="color:red">
               Required
             </div>
         </div>
@@ -133,7 +133,7 @@
                     <option value="WI">Wisconsin</option>
                     <option value="WY">Wyoming</option>
                   </select>
-          <div *ngIf="!myForm.controls['address'].controls['state'].valid" style="color:red">
+          <div *ngIf="!myForm.controls['address'].controls['state'].valid && myForm.controls['address'].controls['state'].touched" style="color:red">
             Required
           </div>
         </div>
@@ -145,9 +145,15 @@
                 class="form-control"
                 id="geolocation"
                 formControlName="geolocation" (keyup)="parseGeolocation($event.target)">
-        <div *ngIf="!myForm.controls['geolocation'].valid" style="color:red">
+        <div *ngIf="!myForm.controls['geolocation'].valid && myForm.controls['geolocation'].touched" style="color:red">
           {{  myForm.controls['geolocation'].errors.format }}
         </div>
+      </div>
+
+      <div class = "">
+        <agm-map [latitude]="lat" [longitude]="lng" (mapClick)='onMapClick($event)'>
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
       </div>
 
       <div class="form-control">
