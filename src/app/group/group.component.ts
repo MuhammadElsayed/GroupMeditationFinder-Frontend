@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { GroupService } from '../services/group.service';
-
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder,
-  FormArray
-} from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { FormGroup,  FormControl,  Validators,  FormBuilder,  FormArray} from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -32,10 +26,12 @@ export class GroupComponent implements OnInit {
   collectionSize = 0;
 
   date: Date = new Date() //| date:'yyyy-MM-dd HH:mm:ss' ;
+  lat: number;
+  lng: number;
 
-
-  constructor(private router: Router, private formBuilder: FormBuilder,
-     private modalService: NgbModal, private groupService: GroupService) {
+  constructor(private router: Router, private formBuilder: FormBuilder
+     ,private modalService: NgbModal, private groupService: GroupService
+     ,private toastr: ToastsManager,vcr: ViewContainerRef) {
     this.myForm = formBuilder.group({
       '_id': ['', []],
       'name': ['', [Validators.required]],
@@ -53,7 +49,7 @@ export class GroupComponent implements OnInit {
         'state': ['IA', [Validators.required]],
       }),
     });
-
+    this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
@@ -76,6 +72,8 @@ export class GroupComponent implements OnInit {
         console.dir(position.coords)
         this.myForm.controls['geolocation'].setValue([position.coords.longitude, position.coords.latitude]);
         console.log(position.coords);
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
       });
     }
   }
@@ -122,25 +120,34 @@ export class GroupComponent implements OnInit {
           console.dir(data)
           if (data['error_code'] == 0) {
             this.modalReference.dismiss();
+            this.toastr.success('', 'Success!');
             this.groupService.getOne(data['_id']).subscribe(
               g => {
                 console.dir(g[0])
                 this.addElement(g[0])
               });
+          }},
+          error => {
+            console.log(error);
+            this.toastr.error(error, 'Wrong!');
           }
-        });
+        );
     } else { //update 
       this.groupService.put(id, this.myForm.value).subscribe(
         data => {
           console.dir(data)
           if (data['error_code'] == 0) {
             this.modalReference.dismiss();
+            this.toastr.success('', 'Success!');
             this.groupService.getOne(data['_id']).subscribe(
               g => {
                 console.dir(g[0])
                 this.updateElement(data['_id'], g[0])
               });
-          }
+        }},
+        error => {
+          console.log(error);
+          this.toastr.error(error, 'Wrong!');
         });
     }
 
@@ -167,6 +174,8 @@ export class GroupComponent implements OnInit {
       data => {
         console.dir(data[0])
         this.myForm.setValue(data[0])
+        this.lng = data[0]['geolocation'][0];
+        this.lat = data[0]['geolocation'][1];
         this.openModal(content);
       });
   }
@@ -178,15 +187,20 @@ export class GroupComponent implements OnInit {
         data => {
           console.dir(data[0]);
           if (data['error_code'] == 0) {
+            this.toastr.success('', 'Delete Success!');
             this.deleteElement(id)
-          }
-        });
+      }},
+      error => {
+        console.log(error);
+        this.toastr.error(error, 'Wrong!');
+      });
     }
   }
 
 
   addElement(g) {
     this.groupList.unshift(g);
+    this.collectionSize += 1
   }
 
   deleteElement(id) {
@@ -194,6 +208,7 @@ export class GroupComponent implements OnInit {
       if (this.groupList[i]._id == id) {
         console.dir(typeof(i)) 
         this.groupList.splice(parseInt(i), 1);
+        this.collectionSize -= 1
         break;
       }
     }
@@ -206,5 +221,14 @@ export class GroupComponent implements OnInit {
         break;
       }
     }
+  }
+
+  onMapClick(e){
+    console.dir(e)    
+    
+    let res = [e.coords.lng, e.coords.lat]
+    this.myForm.controls['geolocation'].setValue(res);
+    this.lng = res[0];
+    this.lat = res[1];
   }
 }
