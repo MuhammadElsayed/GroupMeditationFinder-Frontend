@@ -23,6 +23,18 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.searchControl = new FormControl();
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
+
+        const coords = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        this.webService.placeChanged(coords);
+      });
+    }
+
     this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: ["(cities)"]
@@ -37,7 +49,12 @@ export class NavbarComponent implements OnInit {
             return;
           }
 
-          this.webService.placeChanged(place.geometry.location);
+          const coords = {
+            lng: place.geometry.location.lng(),
+            lat: place.geometry.location.lat()
+          };
+          
+          this.webService.placeChanged(coords);
           console.log(place.geometry.location.lat());
 
           //set latitude, longitude and zoom
