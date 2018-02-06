@@ -1,4 +1,4 @@
-import { AuthenticationService } from './../services/authentication.service';
+import { UserService } from './../services/user.service';
 import { WebService } from './../services/web.service';
 import { Component, OnInit } from '@angular/core';
 import { NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   long: number;
   currentGroup;
   groups;
-  constructor(config: NgbTabsetConfig, private webService: WebService, private authenticationService: AuthenticationService) {
+  constructor(config: NgbTabsetConfig, private webService: WebService, private userService: UserService) {
     // customize default values of tabsets used by this component tree
 
   }
@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
   }
 
   isAuthenticated() {
-    return this.authenticationService.currentUser;
+    return this.userService.isAuthenticated();
   }
 
 
