@@ -17,17 +17,24 @@ export class HomeComponent implements OnInit {
   lat: number;
   long: number;
   currentGroup;
-  groups;
-  constructor(config: NgbTabsetConfig, private webService: WebService, 
-     private userService: UserService, private activatedRoute: ActivatedRoute) {
+  groups = [];
+  constructor(config: NgbTabsetConfig, private webService: WebService,
+    private userService: UserService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
 
-    this.activatedRoute.params.subscribe((params: Params) => {
-      this.lat = params['lat'];
-      this.long = params['lng'];
-      console.log(params);
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+
+      if (!(Object.keys(params).length === 0 && params.constructor === Object)) {
+        const location = {
+          lat: parseFloat(params['lat']),
+          lng: parseFloat(params['lng'])
+        };
+        this.webService.currentLocation.next(location);
+        console.log(params);
+      }
+
     });
 
     this.webService.currentLocation.subscribe(location => {
@@ -35,14 +42,6 @@ export class HomeComponent implements OnInit {
       this.lat = location.lat;
       this.long = location.lng;
       this.idle();
-      // if (typeof location.lat == 'function') {
-
-      // }
-    });
-
-    this.activatedRoute.params.subscribe((params: Params) => {
-      let userId = params['userId'];
-      console.log(userId);
     });
   }
 
@@ -55,7 +54,7 @@ export class HomeComponent implements OnInit {
     console.log(i);
 
     this.webService.joinGroup(this.groups[i]._id).subscribe((data) => {
-      const user = JSON.parse(localStorage.getItem('currentUser'));
+      const user = this.userService.getCurrentUser();
       this.groups[i].users.push({ name: user.name, joinDate: new Date() });
       console.log(data);
     });
@@ -71,11 +70,13 @@ export class HomeComponent implements OnInit {
   }
 
   checkGroupJoinStatus(i) {
-    if (Array.isArray(this.groups[i].users)) {
-      // console.log(this.groups[i]);
-      const user = JSON.parse(localStorage.getItem('currentUser'));
-      if (this.groups[i].users.some(u => u.name === user.name)) {
-        return true;
+    if (this.isAuthenticated()) {
+      if (Array.isArray(this.groups[i].users)) {
+        // console.log(this.groups[i]);
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (this.groups[i].users.some(u => u.name === user.name)) {
+          return true;
+        }
       }
     }
     return false;
@@ -85,7 +86,7 @@ export class HomeComponent implements OnInit {
   idle() {
     console.log(this.lat);
     this.webService.getNearbyGroups(this.long, this.lat).subscribe((data) => {
-      this.groups = data;
+      this.groups = <any[]>data;
       console.log(data);
     }, (err) => {
       console.log(err);

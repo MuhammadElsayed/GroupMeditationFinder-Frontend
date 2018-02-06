@@ -35,7 +35,7 @@
       </div>
       <ng-template #notJoined>
         <div>
-            <button class="btn btn-outline-success my-2 my-sm-0" (click) = "joinGroup(i)" [disabled] = "isAuthenticated()">JOIN</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" (click) = "joinGroup(i)" [disabled] = "!isAuthenticated()">JOIN</button>
         </div>
       </ng-template>
      
@@ -54,6 +54,9 @@
         <p>{{currentGroup.description}}</p>
         <div *ngIf="!currentGroup.isEveryday; else elseBlock">
           <label>Date: </label> {{currentGroup.datetime | date:'MMMM d, y, h:mm:ss a z'}} 
+        </div>
+        <div >
+          <label>Address: </label> {{currentGroup.address.street}}, {{currentGroup.address.city}}, {{currentGroup.address.state}}  
         </div>
         <ng-template #elseBlock>Everyday - {{currentGroup.datetime | date:'h:mm:ss a z'}}</ng-template>
       </ng-template>
