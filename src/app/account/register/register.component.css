@@ -1,6 +1,4 @@
-.input-group .is-invalid {
-  display: block;
-}
-.input-group .invalid-feedback {
-  display: block;
+.registration-outlet {
+  padding: 3rem 1.5rem;
+  text-align: center;
 }
