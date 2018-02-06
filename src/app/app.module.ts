@@ -18,13 +18,15 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
+import { RegisteredGroupsComponent } from './registered-groups/registered-groups.component';
 
 const ROUTES = [
   {path: '' , redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'registered', component: RegisteredGroupsComponent }
 ];
 
 @NgModule({
@@ -34,7 +36,8 @@ const ROUTES = [
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    AdminComponent
+    AdminComponent,
+    RegisteredGroupsComponent
   ],
   imports: [
     BrowserModule,

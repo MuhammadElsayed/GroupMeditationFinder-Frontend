@@ -37,6 +37,9 @@ export class WebService {
   leaveGroup(id) {
     return this.http.post(AppConfig.apiUrl + '/groups/leave', {id: id});
   }
+  getRegisteredGroups() {
+    return this.http.get(AppConfig.apiUrl + '/groups/registered');
+  }
 
   placeChanged(coords) {
     this.currentLocation.next(coords);

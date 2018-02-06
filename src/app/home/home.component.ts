@@ -2,7 +2,6 @@ import { AuthenticationService } from './../services/authentication.service';
 import { WebService } from './../services/web.service';
 import { Component, OnInit } from '@angular/core';
 import { NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
-import { AuthenticationService } from '../services/all';
 
 
 @Component({
@@ -23,22 +22,14 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (window.navigator.geolocation) {
-      window.navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
-        this.lat = position.coords.latitude;
-        this.long = position.coords.longitude;
-        this.idle(); //temp
-      });
-    }
-
     this.webService.currentLocation.subscribe(location => {
       console.log(location);
-      if (typeof location.lat == 'function') {
-        this.lat = location.lat();
-        this.long = location.lng();
-        this.idle();
-      }
+      this.lat = location.lat;
+      this.long = location.lng;
+      this.idle();
+      // if (typeof location.lat == 'function') {
+
+      // }
     });
   }
 
@@ -49,10 +40,10 @@ export class HomeComponent implements OnInit {
 
   joinGroup(i) {
     console.log(i);
-   
+
     this.webService.joinGroup(this.groups[i]._id).subscribe((data) => {
       const user = JSON.parse(localStorage.getItem('currentUser'));
-      this.groups[i].users.push({name: user.name, joinDate: new Date() });
+      this.groups[i].users.push({ name: user.name, joinDate: new Date() });
       console.log(data);
     });
   }
@@ -61,15 +52,15 @@ export class HomeComponent implements OnInit {
     console.log(i);
     const user = JSON.parse(localStorage.getItem('currentUser'));
     this.webService.leaveGroup(this.groups[i]._id).subscribe((data) => {
-      this.groups[i].users =  this.groups[i].users.filter(u => u.name != user.name);
+      this.groups[i].users = this.groups[i].users.filter(u => u.name != user.name);
       console.log(data);
     });
   }
 
   checkGroupJoinStatus(i) {
     if (Array.isArray(this.groups[i].users)) {
-     // console.log(this.groups[i]);
-     const user = JSON.parse(localStorage.getItem('currentUser'));
+      // console.log(this.groups[i]);
+      const user = JSON.parse(localStorage.getItem('currentUser'));
       if (this.groups[i].users.some(u => u.name === user.name)) {
         return true;
       }
@@ -88,7 +79,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  isAuthenticated(){
+  isAuthenticated() {
     return this.authenticationService.currentUser;
   }
 
