@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
@@ -20,9 +20,7 @@ import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
 import { RegisteredGroupsComponent } from './registered-groups/registered-groups.component';
 import { GroupService } from './services/group.service';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { GroupComponent } from './group/group.component';
-import {  FormBuilder } from "@angular/forms";
 
 const ROUTES = [
   {path: '' , redirectTo: 'home', pathMatch: 'full'},
@@ -38,7 +36,7 @@ const ROUTES = [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    GroupComponent
+    GroupComponent,
     LoginComponent,
     RegisterComponent,
     AdminComponent,
