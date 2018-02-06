@@ -1,3 +1,6 @@
+<div class="wrapper">
+
+
 <h1>Find group meditations around you!</h1>
 
 <div class = "mapDiv">
@@ -7,8 +10,9 @@
   [longitude]="long"
   [zoom]="zoom"
   [disableDefaultUI]="false"
-  [zoomControl]="false">
-
+  [zoomControl]="false" (idle) = "idle()"
+ >
+ <!-- (idle) = "idle()" -->
   <agm-marker 
       *ngFor="let g of groups; let i = index"
       (markerClick)="clickedMarker(g.name, i)"
@@ -25,9 +29,16 @@
         <p>{{g.datetime | date:'MMMM d, y, h:mm:ss a z'}} </p> 
       </div>
       <ng-template #elseBlock>Everyday - {{g.datetime | date:'h:mm:ss a z'}}</ng-template>
-      <div>
-        <button class="btn btn-outline-success my-2 my-sm-0" [disabled]="g.isJoined" (click) = "joinGroup(i)">JOIN</button>
+
+      <div *ngIf="checkGroupJoinStatus(i); else notJoined">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click) = "leaveGroup(i)">LEAVE</button>
       </div>
+      <ng-template #notJoined>
+        <div>
+            <button class="btn btn-outline-success my-2 my-sm-0" (click) = "joinGroup(i)" [disabled] = "isAuthenticated()">JOIN</button>
+        </div>
+      </ng-template>
+     
      </agm-info-window>    
   </agm-marker>
 
@@ -40,13 +51,48 @@
   <ngb-tabset>
     <ngb-tab title="Description">
       <ng-template ngbTabContent>
-        <p>These tabs are displayed as pills...</p>
+        <p>{{currentGroup.description}}</p>
+        <div *ngIf="!currentGroup.isEveryday; else elseBlock">
+          <label>Date: </label> {{currentGroup.datetime | date:'MMMM d, y, h:mm:ss a z'}} 
+        </div>
+        <ng-template #elseBlock>Everyday - {{currentGroup.datetime | date:'h:mm:ss a z'}}</ng-template>
       </ng-template>
     </ngb-tab>
     <ngb-tab title="Active Meditators">
       <ng-template ngbTabContent>
-        <p>Because default values have been customized.</p>
+        
+        <div class="main-box no-header clearfix">
+          <div class="main-box-body clearfix">
+              <div class="table-responsive">
+                  <table class="table user-list">
+                      <thead>
+                          <tr>
+                          <th><span>User</span></th>
+                          <th><span>Joined</span></th>
+                          <!-- <th class="text-center"><span>Status</span></th> -->
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let user of currentGroup.users" >
+                              <td>
+                                  <!-- <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""> -->
+                                  <a href="#" class="user-link">{{user.name}}</a>
+                              </td>
+                              <td align="left">{{user.joinDate | date:'MMM d, y, h:mm:ss a' }}</td>
+                              <!-- <td class="text-center">
+                                  <span class="label label-default">pending</span>
+                              </td> -->
+                          </tr>
+                         
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
+</div>
 </div>
