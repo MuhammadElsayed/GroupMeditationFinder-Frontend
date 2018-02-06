@@ -1,7 +1,9 @@
+import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from './../services/authentication.service';
 import { WebService } from './../services/web.service';
 import { Component, OnInit } from '@angular/core';
 import { NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Params } from '@angular/router/src/shared';
 
 
 @Component({
@@ -16,12 +18,20 @@ export class HomeComponent implements OnInit {
   long: number;
   currentGroup;
   groups;
-  constructor(config: NgbTabsetConfig, private webService: WebService, private authenticationService: AuthenticationService) {
+  constructor(config: NgbTabsetConfig, private webService: WebService, 
+    private authenticationService: AuthenticationService, private activatedRoute: ActivatedRoute) {
     // customize default values of tabsets used by this component tree
 
   }
 
   ngOnInit() {
+
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.lat = params['lat'];
+      this.long = params['lng'];
+      console.log(params);
+    });
+
     this.webService.currentLocation.subscribe(location => {
       console.log(location);
       this.lat = location.lat;
@@ -30,6 +40,11 @@ export class HomeComponent implements OnInit {
       // if (typeof location.lat == 'function') {
 
       // }
+    });
+
+    this.activatedRoute.params.subscribe((params: Params) => {
+      let userId = params['userId'];
+      console.log(userId);
     });
   }
 
