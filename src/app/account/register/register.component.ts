@@ -30,12 +30,15 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.loading = true;
+    if (this.model.admin === 1) {
+      this.model.role = 'admin';
+    }
     this.userService.create(this.model)
       .subscribe(
         data => {
-          this.toastr.success('', 'Success!');
+          this.toastr.success('Please login', 'Success!');
           this.loading = false;
-          //this.router.navigate(['home']);
+          this.router.navigate(['login']);
         },
         error => {
           console.log(error);

@@ -13,19 +13,19 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { AdminComponent } from './account/admin/admin.component';
-import { WebService, AuthenticationService, UserService } from './services/all';
+import { WebService, AuthenticationService, UserService, GroupService } from './services/all';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error.interceptor';
 import { RegisteredGroupsComponent } from './registered-groups/registered-groups.component';
-import { GroupService } from './services/group.service';
 import { GroupComponent } from './group/group.component';
 
 const ROUTES = [
-  {path: '' , redirectTo: 'home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
-  { path: 'admin', component: GroupComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: '' , redirectTo: 'home', pathMatch: 'full'},
+  { path: 'home', component: HomeComponent},
+  { path: 'admin-group', component: GroupComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'registered', component: RegisteredGroupsComponent }
