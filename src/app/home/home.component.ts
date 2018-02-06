@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from './../services/authentication.service';
+import { UserService } from './../services/user.service';
 import { WebService } from './../services/web.service';
 import { Component, OnInit } from '@angular/core';
 import { NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -19,9 +19,7 @@ export class HomeComponent implements OnInit {
   currentGroup;
   groups;
   constructor(config: NgbTabsetConfig, private webService: WebService, 
-    private authenticationService: AuthenticationService, private activatedRoute: ActivatedRoute) {
-    // customize default values of tabsets used by this component tree
-
+     private userService: UserService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -95,7 +93,7 @@ export class HomeComponent implements OnInit {
   }
 
   isAuthenticated() {
-    return this.authenticationService.currentUser;
+    return this.userService.isAuthenticated();
   }
 
 
