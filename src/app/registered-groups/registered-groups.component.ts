@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { WebService } from './../services/web.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,7 +10,9 @@ import { Component, OnInit } from '@angular/core';
 export class RegisteredGroupsComponent implements OnInit {
 
   groups = [];
-  constructor(private webService: WebService) { }
+  constructor(private webService: WebService, private activatedRoute: ActivatedRoute) {
+    
+   }
 
   ngOnInit() {
     this.webService.getRegisteredGroups().subscribe(data => {

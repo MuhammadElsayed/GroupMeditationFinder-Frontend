@@ -10,7 +10,7 @@
         <a class="nav-link" [routerLink]="['home']">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['registered']">Registered Groups</a>
+        <a class="nav-link" [routerLink]="['registered']" [hidden]="!hasLoggedinUser">Registered Groups</a>
       </li>
        <li class="nav-item">
         <a class="nav-link" [routerLink]="['admin']">Admin Groups</a>

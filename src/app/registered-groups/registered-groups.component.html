@@ -12,10 +12,10 @@
     <tr *ngFor="let group of groups" >
       <th scope="row">1</th>
       <td>{{group.name}}</td>
-      <td *ngIf="group.isEveryday else notEveryday" >Everyday</td>
+      <td *ngIf="group.isEveryday else notEveryday" >Everyday - {{group.datetime | date:'h:mm:ss a z'}}</td>
       <ng-template #notEveryday><td>{{group.date | date:'MMM d, y, h:mm:ss a'}}</td></ng-template>
       <td>{{group.address.city}}, {{group.address.state}}</td>
-      <td><a style="color: white" class="btn btn-success my-2 my-sm-0"> <i class="fa fa-search"></i> </a></td>
+      <td><a [routerLink]="['/home']" [queryParams]="{ lat: group.geolocation[1], lng: group.geolocation[0] }" style="color: white" class="btn btn-success my-2 my-sm-0"> <i class="fa fa-search"></i> </a></td>
     </tr>
   </tbody>
 </table>
