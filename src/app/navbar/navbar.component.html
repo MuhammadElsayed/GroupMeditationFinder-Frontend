@@ -12,10 +12,10 @@
         <a class="nav-link" [routerLink]="['home']">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item" *ngIf="hasLoggedinUser">
-        <a class="nav-link" [routerLink]="['registered']" >Registered Groups</a>
+        <a class="nav-link" [routerLink]="['registered']" >My Groups</a>
       </li>
        <li class="nav-item" *ngIf="isAdmin">
-        <a class="nav-link" [routerLink]="['admin-group']">Admin Groups</a>
+        <a class="nav-link" [routerLink]="['admin-group']">Manage Groups</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
