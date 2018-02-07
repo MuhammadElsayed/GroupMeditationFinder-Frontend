@@ -52,13 +52,28 @@
     <ngb-tab title="Description">
       <ng-template ngbTabContent>
         <p>{{currentGroup.description}}</p>
-        <div *ngIf="!currentGroup.isEveryday; else elseBlock">
-          <label>Date: </label> {{currentGroup.datetime | date:'MMMM d, y, h:mm:ss a z'}} 
+       
+        <div class="row justify-content-center">
+            <div class="col-sm-1">
+                <label>Date: </label> 
+            </div>
+            <div class="col-sm-4">
+                <div *ngIf="!currentGroup.isEveryday; else elseBlock">
+                    {{currentGroup.datetime | date:'MMMM d, y, h:mm:ss a z'}} 
+                   </div>
+                   <ng-template #elseBlock>Everyday - {{currentGroup.datetime | date:'h:mm:ss a z'}}</ng-template>
+            </div>
+          </div>
+        <div class="row justify-content-center">
+          <div class="col-sm-1">
+              <label>Address: </label> 
+          </div>
+          <div class="col-sm-4">
+              {{currentGroup.address.street}}, {{currentGroup.address.city}}, {{currentGroup.address.state}}  
+          </div>
+       
         </div>
-        <div >
-          <label>Address: </label> {{currentGroup.address.street}}, {{currentGroup.address.city}}, {{currentGroup.address.state}}  
-        </div>
-        <ng-template #elseBlock>Everyday - {{currentGroup.datetime | date:'h:mm:ss a z'}}</ng-template>
+       
       </ng-template>
     </ngb-tab>
     <ngb-tab title="Active Meditators">
