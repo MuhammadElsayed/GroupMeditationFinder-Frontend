@@ -1,9 +1,10 @@
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../services/user.service';
 import { WebService } from './../services/web.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NgbTabsetConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Params } from '@angular/router/src/shared';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 
 @Component({
@@ -19,7 +20,10 @@ export class HomeComponent implements OnInit {
   currentGroup;
   groups = [];
   constructor(config: NgbTabsetConfig, private webService: WebService,
-    private userService: UserService, private activatedRoute: ActivatedRoute) {
+    private userService: UserService, private activatedRoute: ActivatedRoute,
+    private toastr: ToastsManager, vcr: ViewContainerRef
+  ) {
+    this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
@@ -56,6 +60,7 @@ export class HomeComponent implements OnInit {
     this.webService.joinGroup(this.groups[i]._id).subscribe((data) => {
       const user = this.userService.getCurrentUser();
       this.groups[i].users.push({ name: user.name, joinDate: new Date() });
+      this.toastr.success('', 'Joined!');
       console.log(data);
     });
   }
@@ -65,6 +70,7 @@ export class HomeComponent implements OnInit {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     this.webService.leaveGroup(this.groups[i]._id).subscribe((data) => {
       this.groups[i].users = this.groups[i].users.filter(u => u.name != user.name);
+      this.toastr.success('', 'Left');
       console.log(data);
     });
   }
