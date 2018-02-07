@@ -9,8 +9,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let group of groups" >
-      <th scope="row">1</th>
+    <tr *ngFor="let group of groups; let i = index" >
+      <th scope="row">{{i + 1}}</th>
       <td>{{group.name}}</td>
       <td *ngIf="group.isEveryday else notEveryday" >Everyday - {{group.datetime | date:'h:mm:ss a z'}}</td>
       <ng-template #notEveryday><td>{{group.datetime | date:'MMM d, y, h:mm:ss a z'}}</td></ng-template>
