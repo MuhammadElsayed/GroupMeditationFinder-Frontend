@@ -1,3 +1,3 @@
 ﻿export class AppConfig {
-        static apiUrl = 'http://localhost:3000/api';
+        static apiUrl = 'http://54.209.64.120:3000/api';
 }
