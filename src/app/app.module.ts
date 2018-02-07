@@ -24,11 +24,11 @@ import { GroupComponent } from './group/group.component';
 const ROUTES = [
   { path: '' , redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent},
-  { path: 'admin-group', component: GroupComponent, canActivate: [AuthGuard, AdminGuard] },
-  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin-group', component: GroupComponent, canActivate: [AdminGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'registered', component: RegisteredGroupsComponent }
+  { path: 'registered', component: RegisteredGroupsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -55,9 +55,10 @@ const ROUTES = [
   ],
   providers: [
     WebService,
-    AuthGuard,
     AuthenticationService,
     UserService,
+    AuthGuard,
+    AdminGuard,
     JwtInterceptorProvider,
     ErrorInterceptorProvider,
     FormBuilder,

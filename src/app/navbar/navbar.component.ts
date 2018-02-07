@@ -89,7 +89,8 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
     // reload the user with the hard way (old school)
     this.location.go('login');
-    this.reload();
+    //this.reload();
+    //debugger;
   }
   public reload(): any {
     return this.ngZone.runOutsideAngular(() => {
