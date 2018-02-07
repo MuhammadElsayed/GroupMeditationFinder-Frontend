@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AppConfig } from '../app.config';
 import { User } from '../models/user';
+import { AdminKey } from '../models/adminKey';
 
 @Injectable()
 export class UserService {
@@ -49,5 +50,9 @@ export class UserService {
     }
 
     delete(_id: string) {
+    }
+
+    addKey(adminKey: AdminKey) {
+      return this.http.post(AppConfig.apiUrl + '/users/addkey', adminKey);
     }
 }
