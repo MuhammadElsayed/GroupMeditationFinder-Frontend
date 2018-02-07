@@ -84,13 +84,15 @@ export class HomeComponent implements OnInit {
   }
 
   idle() {
-    console.log(this.lat);
-    this.webService.getNearbyGroups(this.long, this.lat).subscribe((data) => {
-      this.groups = <any[]>data;
-      console.log(data);
-    }, (err) => {
-      console.log(err);
-    });
+    if (this.lat != undefined && this.long != undefined && this.currentGroup == undefined) {
+      this.webService.getNearbyGroups(this.long, this.lat).subscribe((data) => {
+        this.groups = <any[]>data;
+        console.log(data);
+      }, (err) => {
+        console.log(err);
+      });
+    }
+
   }
 
   isAuthenticated() {
