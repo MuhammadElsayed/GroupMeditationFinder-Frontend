@@ -3,8 +3,11 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <a class="navbar-brand" href="#"><img src="../../assets/gmf_logo_s.png"></a>
+
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="nav navbar-nav pull-sm-left">
+    <ul class="navbar-nav mr-auto">
+
       <li class="nav-item active">
         <a class="nav-link" [routerLink]="['home']">Home <span class="sr-only">(current)</span></a>
       </li>
@@ -28,15 +31,11 @@
         </div>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-logo mx-auto">
-      <li> <a class="navbar-brand" href="#">GMF</a></li>
-    </ul>
-    <ul class="nav navbar-nav pull-sm-right">
+
     <form class="form-inline my-2 my-lg-0">
       <input #search class="form-control mr-sm-2" type="text" placeholder="Search by city" [formControl]="searchControl">
       <a class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['home']">Search</a>
     </form>
-    </ul>
   </div>
 
 </nav>
