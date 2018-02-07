@@ -25,7 +25,7 @@ export class GroupComponent implements OnInit {
   page = 1;
   collectionSize = 0;
 
-  date: Date = new Date() //| date:'yyyy-MM-dd HH:mm:ss' ;
+  date: Date = new Date() 
   lat: number;
   lng: number;
 
@@ -46,7 +46,7 @@ export class GroupComponent implements OnInit {
       'address': formBuilder.group({
         'street': ['', [Validators.required]],
         'city': ['', [Validators.required]],
-        'state': ['IA', [Validators.required]],
+        'state': ['', [Validators.required]],
       }),
     });
     this.toastr.setRootViewContainerRef(vcr);

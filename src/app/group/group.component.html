@@ -35,13 +35,11 @@
       
       <!-- ngui-datetime-picker -->
       <div class="form-control">
-          <label for="datetime-local">Datetime</label><br/>
-          <input type="date"
+          <label for="datetime">Datetime</label><br/>
+          <input type="datetime-local"
                   class="form-control"
                   id="datetime"
-                  formControlName="datetime" 
-                  value="1996-12-19T16:39:57-08:00"
-                 >
+                  formControlName="datetime">
           
           <div *ngIf="!myForm.controls['datetime'].valid && myForm.controls['datetime'].touched" style="color:red">
             Invalid Datetime
