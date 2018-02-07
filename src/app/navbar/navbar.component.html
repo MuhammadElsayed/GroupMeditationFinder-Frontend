@@ -2,36 +2,41 @@
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">GMF</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul class="nav navbar-nav pull-sm-left">
       <li class="nav-item active">
         <a class="nav-link" [routerLink]="['home']">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['registered']" [hidden]="!hasLoggedinUser">Registered Groups</a>
+      <li class="nav-item" *ngIf="hasLoggedinUser">
+        <a class="nav-link" [routerLink]="['registered']" >Registered Groups</a>
       </li>
-       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['admin']">Admin Groups</a>
+       <li class="nav-item" *ngIf="isAdmin">
+        <a class="nav-link" [routerLink]="['admin-group']">Admin Groups</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
           {{accountHeader}}
         </a>
         <div class="dropdown-menu" *ngIf="!hasLoggedinUser">
-          <a class="dropdown-item" [routerLink]="['/login']">Login</a>
-          <a class="dropdown-item" [routerLink]="['/register']">Register</a>
+          <a class="dropdown-item" [routerLink]="['login']">Login</a>
+          <a class="dropdown-item" [routerLink]="['register']">Register</a>
         </div>
         <div class="dropdown-menu" *ngIf="hasLoggedinUser">
-          <a class="dropdown-item" *ngIf="isAdmin" [routerLink]="['/admin']">Admin Keys</a>
-          <a class="dropdown-item" (click)="logOut()">Logout</a>
+          <a class="dropdown-item" *ngIf="isAdmin" [routerLink]="['admin']">Admin Keys</a>
+          <a class="dropdown-item" (click)="logOut()" href="">Logout</a>
         </div>
       </li>
     </ul>
+    <ul class="nav navbar-nav navbar-logo mx-auto">
+      <li> <a class="navbar-brand" href="#">GMF</a></li>
+    </ul>
+    <ul class="nav navbar-nav pull-sm-right">
     <form class="form-inline my-2 my-lg-0">
       <input #search class="form-control mr-sm-2" type="text" placeholder="Search by city" [formControl]="searchControl">
       <a class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['home']">Search</a>
     </form>
+    </ul>
   </div>
+
 </nav>
